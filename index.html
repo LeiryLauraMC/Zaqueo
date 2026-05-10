@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zaqueo — Guía de Clase | Semilleros</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FDF6EE;
+    --warm: #F5E6D0;
+    --terra: #C4703F;
+    --gold: #D4A843;
+    --sage: #7A9E7E;
+    --brown: #5C3D2E;
+    --ink: #2C1A0E;
+    --blush: #E8C4A0;
+    --sky: #A8C5DA;
+    --leaf: #8BAD6E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--brown);
+    padding: 28px 40px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 18px,
+      rgba(255,255,255,0.03) 18px,
+      rgba(255,255,255,0.03) 36px
+    );
+  }
+  .header-icon {
+    font-size: 52px;
+    line-height: 1;
+    z-index: 1;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+  }
+  .header-text { z-index: 1; }
+  .header-label {
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    color: var(--blush);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    color: #fff;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+  .header-sub {
+    font-size: 13px;
+    color: var(--blush);
+    margin-top: 4px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--warm);
+    border-bottom: 2px solid var(--blush);
+    display: flex;
+    gap: 4px;
+    padding: 10px 32px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    background: none;
+    border: 1.5px solid transparent;
+    border-radius: 30px;
+    padding: 8px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--brown);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-btn:hover { background: var(--blush); border-color: var(--terra); }
+  .nav-btn.active {
+    background: var(--terra);
+    color: #fff;
+    border-color: var(--terra);
+  }
+
+  /* ── SECTIONS ── */
+  .section { display: none; padding: 36px 32px; max-width: 900px; margin: 0 auto; }
+  .section.visible { display: block; }
+
+  /* ── INTRO SECTION ── */
+  .verse-card {
+    background: var(--brown);
+    color: #fff;
+    border-radius: 18px;
+    padding: 28px 32px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .verse-card::after {
+    content: '🌳';
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 64px;
+    opacity: 0.15;
+  }
+  .verse-label {
+    font-family: 'Caveat', cursive;
+    font-size: 14px;
+    color: var(--blush);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .verse-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .verse-ref {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--blush);
+    font-weight: 500;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .info-card {
+    background: #fff;
+    border: 1.5px solid var(--blush);
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .info-card-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--terra);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .info-card-val {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--brown);
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--blush);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .t-item {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding-bottom: 22px;
+    position: relative;
+  }
+  .t-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 38px;
+    bottom: 0;
+    width: 2px;
+    background: var(--blush);
+  }
+  .t-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--terra);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    z-index: 1;
+    box-shadow: 0 2px 10px rgba(196,112,63,0.3);
+  }
+  .t-content { flex: 1; }
+  .t-time {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--terra);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .t-title { font-weight: 600; font-size: 15px; margin-bottom: 3px; }
+  .t-desc { font-size: 13.5px; color: #5a4a3a; line-height: 1.5; }
+
+  /* ── QUIZ ── */
+  .quiz-intro {
+    background: var(--sage);
+    color: #fff;
+    border-radius: 16px;
+    padding: 22px 26px;
+    margin-bottom: 26px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .quiz-intro strong { font-size: 16px; display: block; margin-bottom: 6px; }
+
+  .riddle-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .riddle-card {
+    background: #fff;
+    border: 1.5px solid var(--blush);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+  }
+  .riddle-card:hover { transform: translateY(-2px); }
+  .riddle-header {
+    background: var(--warm);
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1.5px solid var(--blush);
+  }
+  .riddle-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .riddle-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--terra);
+    font-weight: 600;
+  }
+  .riddle-body { padding: 20px 22px; }
+  .pistas { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .pista {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 10px 14px;
+    border-left: 3px solid var(--gold);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .pista-num {
+    font-weight: 700;
+    color: var(--gold);
+    font-size: 13px;
+    min-width: 20px;
+    margin-top: 1px;
+  }
+  .pista span { transition: all 0.3s; }
+  .pista.hidden-text span { filter: blur(5px); color: transparent; text-shadow: 0 0 8px rgba(92,61,46,0.5); }
+
+  .reveal-btn {
+    background: var(--terra);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .reveal-btn:hover { background: var(--brown); transform: scale(1.02); }
+
+  .answer-box {
+    margin-top: 14px;
+    background: var(--brown);
+    color: #fff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: none;
+    animation: slideDown 0.3s ease;
+  }
+  .answer-box.show { display: block; }
+  .answer-box .ans-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--blush);
+    margin-bottom: 4px;
+  }
+  .answer-box .ans-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .answer-box .ans-val {
+    font-size: 13px;
+    color: var(--blush);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── ENTREVISTA ── */
+  .interview-intro {
+    background: linear-gradient(135deg, var(--sky) 0%, #c8dde8 100%);
+    border-radius: 16px;
+    padding: 22px 26px;
+    margin-bottom: 26px;
+  }
+  .interview-intro strong { display: block; font-size: 15px; margin-bottom: 6px; color: var(--brown); }
+  .interview-intro p { font-size: 13.5px; line-height: 1.6; color: var(--ink); }
+
+  .roles-strip {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .role-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1.5px solid var(--blush);
+    border-radius: 30px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--brown);
+  }
+  .role-icon { font-size: 20px; }
+
+  .dialogue {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .d-block {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .d-block.right { flex-direction: row-reverse; }
+  .d-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .d-avatar.reporter { background: var(--sky); }
+  .d-avatar.zaqueo { background: var(--gold); }
+  .d-avatar.narrador { background: var(--sage); }
+
+  .d-bubble {
+    flex: 1;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    position: relative;
+  }
+  .d-block:not(.right) .d-bubble { border-top-left-radius: 2px; }
+  .d-block.right .d-bubble { border-top-right-radius: 2px; }
+
+  .d-bubble.reporter-bubble { background: #e8f4fb; border: 1.5px solid var(--sky); }
+  .d-bubble.zaqueo-bubble { background: #fdf3e0; border: 1.5px solid var(--gold); }
+  .d-bubble.narrador-bubble { background: #eef4ee; border: 1.5px solid var(--sage); font-style: italic; font-size: 13px; }
+
+  .d-speaker {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .d-speaker.rep { color: #5a8fa8; }
+  .d-speaker.zaq { color: var(--terra); }
+  .d-speaker.nar { color: var(--sage); }
+
+  .tip-box {
+    background: var(--warm);
+    border-left: 4px solid var(--terra);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 18px;
+    font-size: 13px;
+    color: var(--brown);
+    line-height: 1.55;
+    margin: 6px 0;
+  }
+  .tip-box strong { color: var(--terra); }
+
+  .divider-label {
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    color: var(--terra);
+    letter-spacing: 1px;
+    padding: 16px 0 8px;
+    position: relative;
+  }
+  .divider-label::before, .divider-label::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: var(--blush);
+  }
+  .divider-label::before { left: 0; }
+  .divider-label::after { right: 0; }
+
+  /* ── CIERRE ── */
+  .close-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 580px) { .close-grid { grid-template-columns: 1fr; } }
+
+  .close-card {
+    background: #fff;
+    border: 1.5px solid var(--blush);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .close-card-title {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--terra);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .close-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .close-card li {
+    font-size: 13.5px;
+    color: var(--ink);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .close-card li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 11px;
+    top: 2px;
+  }
+
+  .prayer-box {
+    background: var(--brown);
+    color: #fff;
+    border-radius: 16px;
+    padding: 24px 28px;
+    text-align: center;
+  }
+  .prayer-box .p-label {
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+    color: var(--blush);
+    margin-bottom: 8px;
+  }
+  .prayer-box .p-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--blush);
+    color: var(--brown);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px;
+    font-size: 12px;
+    color: #9a8070;
+    border-top: 1px solid var(--blush);
+    margin-top: 40px;
+  }
+  footer strong { color: var(--terra); }
+
+  /* ── PROGRESS ── */
+  .progress-bar {
+    height: 3px;
+    background: var(--blush);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--terra);
+    transition: width 0.3s;
+  }
+
+  /* pista hide toggle */
+  .pista-toggle-hint {
+    font-size: 11px;
+    color: var(--terra);
+    margin-top: -6px;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progress" style="width:25%"></div></div>
+
+<header>
+  <div class="header-icon">🌳</div>
+  <div class="header-text">
+    <div class="header-label">Semilleros · Iglesia Gosén</div>
+    <div class="header-title">Zaqueo</div>
+    <div class="header-sub">Guía del docente · Lucas 19:1–10 · Edades 6–9</div>
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="goTo(0)" id="nav0">📋 Inicio</button>
+  <button class="nav-btn" onclick="goTo(1)" id="nav1">❓ ¿Quién soy?</button>
+  <button class="nav-btn" onclick="goTo(2)" id="nav2">🎙️ Entrevista</button>
+  <button class="nav-btn" onclick="goTo(3)" id="nav3">🌿 Cierre</button>
+</nav>
+
+<!-- ══════════ SECCIÓN 0: INICIO ══════════ -->
+<section class="section visible" id="s0">
+
+  <div class="verse-card">
+    <div class="verse-label">Versículo central</div>
+    <div class="verse-text">"Porque el Hijo del Hombre vino a buscar y a salvar lo que se había perdido."</div>
+    <div class="verse-ref">Lucas 19:10</div>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-label">Pasaje bíblico</div>
+      <div class="info-card-val">Lucas 19:1–10</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Edades</div>
+      <div class="info-card-val">6–9 años</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Dinámicas</div>
+      <div class="info-card-val">¿Quién soy? + Reportero</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-label">Idea central</div>
+      <div class="info-card-val">Jesús busca a los alejados</div>
+    </div>
+  </div>
+
+  <div class="section-title">🗂️ Estructura de la clase</div>
+  <div class="timeline">
+    <div class="t-item">
+      <div class="t-dot">1</div>
+      <div class="t-content">
+        <div class="t-time">Apertura · 5–7 min</div>
+        <div class="t-title">¿Quién soy? — Adivinanzas de personajes</div>
+        <div class="t-desc">Los niños adivinan con pistas quiénes son los personajes de la historia. Activa conocimientos previos y genera expectativa. Ve a la pestaña <strong>❓ ¿Quién soy?</strong></div>
+      </div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">2</div>
+      <div class="t-content">
+        <div class="t-time">Enseñanza · 10 min</div>
+        <div class="t-title">Narración de la historia</div>
+        <div class="t-desc">Cuenta la historia con emoción: la curiosidad de Zaqueo, el árbol, el momento en que Jesús lo llama por su nombre. Énfasis: Jesús eligió a alguien que todos rechazaban.</div>
+      </div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">3</div>
+      <div class="t-content">
+        <div class="t-time">Dinámica principal · 12–15 min</div>
+        <div class="t-title">El Reportero Bíblico — Entrevista a Zaqueo</div>
+        <div class="t-desc">Un niño es el reportero, otro hace de Zaqueo transformado. El grupo puede ayudar con pistas. Usa el diálogo guionado de la pestaña <strong>🎙️ Entrevista</strong>.</div>
+      </div>
+    </div>
+    <div class="t-item">
+      <div class="t-dot">4</div>
+      <div class="t-content">
+        <div class="t-time">Cierre · 5 min</div>
+        <div class="t-title">Reflexión y oración</div>
+        <div class="t-desc">Preguntas de aplicación personal y oración. Pestaña <strong>🌿 Cierre</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px;">
+    <div class="section-title">💡 Contexto para el docente</div>
+    <div class="tip-box">
+      <strong>¿Quién era Zaqueo?</strong> Era el jefe de los recaudadores de impuestos en Jericó. Los recaudadores cobraban más de lo que debían y se quedaban con el resto, así que todos los odiaban. Era rico, pero estaba solo y marginado. Su historia es sobre alguien que no esperaba que Jesús lo notara.
+    </div>
+    <div class="tip-box" style="margin-top:10px;">
+      <strong>Clave emocional:</strong> Los niños de 6–9 años entienden perfectamente qué es sentirse excluido o no elegido. Conecta la historia con esa emoción real antes de revelar que Jesús lo eligió a él primero.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ SECCIÓN 1: ¿QUIÉN SOY? ══════════ -->
+<section class="section" id="s1">
+
+  <div class="quiz-intro">
+    <strong>🎯 Dinámica: ¿Quién soy?</strong>
+    Da las pistas <em>una por una</em>, pausando entre cada una. Haz que los niños levanten la mano cuando crean saber la respuesta. Puedes hacer que un niño sea quien dé las pistas a sus compañeros. Toca la pista para revelarla o esconderla durante la clase.
+  </div>
+
+  <div class="riddle-cards">
+
+    <!-- ADIVINANZA 1 -->
+    <div class="riddle-card">
+      <div class="riddle-header">
+        <div class="riddle-num">1</div>
+        <div>
+          <div class="riddle-tag">Personaje 1 · Para abrir la clase</div>
+          <div style="font-size:12px;color:#7a6a5a;margin-top:2px;">Nivel: fácil</div>
+        </div>
+      </div>
+      <div class="riddle-body">
+        <p class="pista-toggle-hint">Toca cada pista para revelarla o esconderla</p>
+        <ul class="pistas">
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">1</span>
+            <span>Soy un hombre muy bajito de estatura.</span>
+          </li>
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">2</span>
+            <span>Tengo mucho dinero, pero nadie en mi ciudad me quiere.</span>
+          </li>
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">3</span>
+            <span>Un día tuve que subirme a un árbol para poder ver pasar a alguien importante.</span>
+          </li>
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">4</span>
+            <span>Ese alguien me llamó por mi nombre y cambió mi vida para siempre.</span>
+          </li>
+        </ul>
+        <button class="reveal-btn" onclick="toggleAnswer(this)">✨ Revelar respuesta</button>
+        <div class="answer-box">
+          <div class="ans-label">¡Es!</div>
+          <div class="ans-name">Zaqueo 🌳</div>
+          <div class="ans-val">El jefe de los recaudadores de impuestos de Jericó. Pequeño de estatura, grande en riqueza, pero vacío por dentro.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADIVINANZA 2 -->
+    <div class="riddle-card">
+      <div class="riddle-header">
+        <div class="riddle-num">2</div>
+        <div>
+          <div class="riddle-tag">Personaje 2 · Para después de contar la historia</div>
+          <div style="font-size:12px;color:#7a6a5a;margin-top:2px;">Nivel: medio</div>
+        </div>
+      </div>
+      <div class="riddle-body">
+        <p class="pista-toggle-hint">Toca cada pista para revelarla o esconderla</p>
+        <ul class="pistas">
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">1</span>
+            <span>Ese día iba pasando por una ciudad llamada Jericó y muchísima gente me seguía.</span>
+          </li>
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">2</span>
+            <span>Cuando pasé por una calle, miré hacia arriba y vi a alguien escondido entre las ramas.</span>
+          </li>
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">3</span>
+            <span>La multitud se enojó conmigo porque decidí ir a comer a la casa de ese hombre.</span>
+          </li>
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">4</span>
+            <span>Vine a buscar y salvar lo que estaba perdido.</span>
+          </li>
+        </ul>
+        <button class="reveal-btn" onclick="toggleAnswer(this)">✨ Revelar respuesta</button>
+        <div class="answer-box">
+          <div class="ans-label">¡Es!</div>
+          <div class="ans-name">Jesús ✝️</div>
+          <div class="ans-val">Él sabía exactamente quién era Zaqueo, y aun así lo eligió primero a él. Eso es gracia.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADIVINANZA 3 -->
+    <div class="riddle-card">
+      <div class="riddle-header">
+        <div class="riddle-num">3</div>
+        <div>
+          <div class="riddle-tag">Personaje 3 · Para el cierre</div>
+          <div style="font-size:12px;color:#7a6a5a;margin-top:2px;">Nivel: reflexivo · hace pensar</div>
+        </div>
+      </div>
+      <div class="riddle-body">
+        <p class="pista-toggle-hint">Toca cada pista para revelarla o esconderla</p>
+        <ul class="pistas">
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">1</span>
+            <span>Ese día estábamos en la multitud esperando ver al famoso maestro pasar.</span>
+          </li>
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">2</span>
+            <span>Cuando Jesús entró a la casa de Zaqueo, murmuramos y nos quejamos.</span>
+          </li>
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">3</span>
+            <span>Creíamos que Zaqueo no merecía que Jesús lo visitara.</span>
+          </li>
+          <li class="pista hidden-text" onclick="togglePista(this)">
+            <span class="pista-num">4</span>
+            <span>Somos todos los que a veces juzgamos sin conocer el corazón de las personas.</span>
+          </li>
+        </ul>
+        <button class="reveal-btn" onclick="toggleAnswer(this)">✨ Revelar respuesta</button>
+        <div class="answer-box">
+          <div class="ans-label">¡Son!</div>
+          <div class="ans-name">La multitud 👥</div>
+          <div class="ans-val">A veces nosotros también somos la multitud. Esta adivinanza abre la pregunta: ¿alguna vez has juzgado a alguien sin darle una oportunidad?</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ SECCIÓN 2: ENTREVISTA ══════════ -->
+<section class="section" id="s2">
+
+  <div class="interview-intro">
+    <strong>🎙️ El Reportero Bíblico — Entrevista a Zaqueo</strong>
+    <p>Asigna los roles antes de comenzar. El reportero puede leer las preguntas de esta pantalla. El niño que hace de Zaqueo improvisa con las ideas del guión como guía. El resto del grupo puede ayudar con aplausos o pistas. ¡Usa un micrófono de juguete o uno hecho de papel para hacer la escena más divertida!</p>
+  </div>
+
+  <div class="roles-strip">
+    <div class="role-chip"><span class="role-icon">🎤</span> El Reportero (un niño)</div>
+    <div class="role-chip"><span class="role-icon">💰</span> Zaqueo (un niño)</div>
+    <div class="role-chip"><span class="role-icon">📢</span> Narrador (el docente)</div>
+    <div class="role-chip"><span class="role-icon">👥</span> Público (el grupo)</div>
+  </div>
+
+  <div class="section-title">🎬 Guión de la entrevista</div>
+
+  <div class="dialogue">
+
+    <div class="d-block">
+      <div class="d-avatar narrador">📢</div>
+      <div class="d-bubble narrador-bubble">
+        <div class="d-speaker nar">Narrador (docente)</div>
+        Acabamos de escuchar la historia más sorprendente de Jericó. Hoy nuestro reportero especial tiene una entrevista exclusiva con el mismísimo Zaqueo, ¡quien acaba de bajar del árbol! Démosle un aplauso.
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Pausa aquí:</strong> pide al grupo que aplauda como si fuera un show de televisión. Esto activa la energía y hace que los niños entren en el juego.
+    </div>
+
+    <div class="divider-label">— Bloque 1: ¿Quién eres? —</div>
+
+    <div class="d-block">
+      <div class="d-avatar reporter">🎤</div>
+      <div class="d-bubble reporter-bubble">
+        <div class="d-speaker rep">Reportero</div>
+        Zaqueo, buenas tardes. Díganos, ¿quién es usted y por qué toda la ciudad lo conoce?
+      </div>
+    </div>
+
+    <div class="d-block right">
+      <div class="d-avatar zaqueo">💰</div>
+      <div class="d-bubble zaqueo-bubble">
+        <div class="d-speaker zaq">Zaqueo (el niño puede decir algo como...)</div>
+        Soy el jefe de los cobradores de impuestos aquí en Jericó. Sí, sé que nadie me quiere mucho... pero hoy algo cambió.
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Si el niño se bloquea:</strong> susúrrale "di que eres el que cobraba los impuestos" o deja que el público ayude con pistas.
+    </div>
+
+    <div class="divider-label">— Bloque 2: El árbol —</div>
+
+    <div class="d-block">
+      <div class="d-avatar reporter">🎤</div>
+      <div class="d-bubble reporter-bubble">
+        <div class="d-speaker rep">Reportero</div>
+        Zaqueo, ¿es verdad que hoy te subiste a un árbol? Cuéntanos, ¿por qué lo hiciste?
+      </div>
+    </div>
+
+    <div class="d-block right">
+      <div class="d-avatar zaqueo">💰</div>
+      <div class="d-bubble zaqueo-bubble">
+        <div class="d-speaker zaq">Zaqueo</div>
+        Quería ver a Jesús pero... soy muy bajito. La gente no me dejaba pasar, así que tuve que subirme a un sicómoro para poder verlo desde arriba.
+      </div>
+    </div>
+
+    <div class="d-block">
+      <div class="d-avatar reporter">🎤</div>
+      <div class="d-bubble reporter-bubble">
+        <div class="d-speaker rep">Reportero</div>
+        ¡Y entonces qué pasó! Cuéntanos el momento en que Jesús te vio.
+      </div>
+    </div>
+
+    <div class="d-block right">
+      <div class="d-avatar zaqueo">💰</div>
+      <div class="d-bubble zaqueo-bubble">
+        <div class="d-speaker zaq">Zaqueo</div>
+        Yo esperaba que pasara de largo como todos. Pero de repente se detuvo, miró hacia arriba... y me llamó por mi nombre. ¡Me llamó por mi nombre! Dijo: "Zaqueo, baja pronto, porque hoy debo quedarme en tu casa."
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Momento clave:</strong> cuando el niño diga "me llamó por mi nombre", haz que el grupo repita en voz alta: <em>"¡te llamó por TU nombre!"</em> Eso fija la enseñanza en la memoria.
+    </div>
+
+    <div class="divider-label">— Bloque 3: La transformación —</div>
+
+    <div class="d-block">
+      <div class="d-avatar reporter">🎤</div>
+      <div class="d-bubble reporter-bubble">
+        <div class="d-speaker rep">Reportero</div>
+        Zaqueo, sabemos que eras conocido por quedarte con el dinero de la gente. ¿Algo cambió después de que Jesús entró a tu casa?
+      </div>
+    </div>
+
+    <div class="d-block right">
+      <div class="d-avatar zaqueo">💰</div>
+      <div class="d-bubble zaqueo-bubble">
+        <div class="d-speaker zaq">Zaqueo</div>
+        Sí. No sé cómo explicarlo, pero cuando Jesús me miró así... sentí que alguien me veía de verdad, no como ladrón sino como persona. Decidí devolver todo lo que robé, ¡cuatro veces más! Y también voy a dar la mitad de todo lo que tengo a los pobres.
+      </div>
+    </div>
+
+    <div class="d-block">
+      <div class="d-avatar reporter">🎤</div>
+      <div class="d-bubble reporter-bubble">
+        <div class="d-speaker rep">Reportero</div>
+        ¡Impresionante! Y la multitud afuera no estaba muy contenta... ¿Qué les dirías a todos los que piensan que tú no merecías que Jesús te visitara?
+      </div>
+    </div>
+
+    <div class="d-block right">
+      <div class="d-avatar zaqueo">💰</div>
+      <div class="d-bubble zaqueo-bubble">
+        <div class="d-speaker zaq">Zaqueo</div>
+        Que Jesús no vino para los que ya son perfectos. Él vino a buscar a los que están perdidos. Y yo estaba muy perdido.
+      </div>
+    </div>
+
+    <div class="divider-label">— Pregunta del público —</div>
+
+    <div class="d-block">
+      <div class="d-avatar narrador">📢</div>
+      <div class="d-bubble narrador-bubble">
+        <div class="d-speaker nar">Narrador (docente)</div>
+        ¡Gracias, Zaqueo! Ahora el público tiene su oportunidad. ¿Alguien quiere hacerle una pregunta a Zaqueo?
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <strong>Deja 2–3 niños hacer preguntas espontáneas.</strong> Si nadie pregunta, lanza tú: "Zaqueo, ¿cómo se sintió que Jesús supiera tu nombre?" o "¿Volviste a subir a ese árbol alguna vez?"
+    </div>
+
+    <div class="d-block">
+      <div class="d-avatar narrador">📢</div>
+      <div class="d-bubble narrador-bubble">
+        <div class="d-speaker nar">Narrador (docente) — para cerrar la entrevista</div>
+        Muchas gracias, Zaqueo. Hoy nos recordaste algo muy importante: Jesús te ve aunque tú creas que estás escondido. Y te llama por tu nombre aunque todos los demás te ignoren. ¡Eso es lo que hace Jesús! Démosle un aplauso a nuestro entrevistado.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ SECCIÓN 3: CIERRE ══════════ -->
+<section class="section" id="s3">
+
+  <div class="section-title">🌿 Preguntas de reflexión</div>
+  <div class="close-grid">
+    <div class="close-card">
+      <div class="close-card-title">💬 Para todo el grupo</div>
+      <ul>
+        <li>¿Alguna vez te has sentido ignorado o que nadie te veía?</li>
+        <li>¿Cómo crees que se sintió Zaqueo cuando Jesús lo llamó por su nombre?</li>
+        <li>¿Por qué crees que Zaqueo cambió después de que Jesús lo visitó?</li>
+      </ul>
+    </div>
+    <div class="close-card">
+      <div class="close-card-title">💬 Para pensar solos</div>
+      <ul>
+        <li>¿Hay algo que sabes que no está bien y quieres cambiar?</li>
+        <li>¿Alguien en tu vida necesita que lo veas como Jesús vio a Zaqueo?</li>
+        <li>¿Qué harías si supieras que Jesús está pasando hoy por tu calle?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">📌 Idea central para recordar</div>
+  <div style="background:#fff;border:1.5px solid var(--blush);border-radius:16px;padding:22px 24px;margin-bottom:24px;text-align:center;">
+    <div style="font-family:'Caveat',cursive;font-size:16px;color:var(--terra);margin-bottom:10px;">El niño se va con esta frase</div>
+    <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--brown);line-height:1.4;">
+      "Jesús te conoce por tu nombre<br>y te busca aunque estés escondido."
+    </div>
+  </div>
+
+  <div class="section-title">✅ Opciones para reforzar</div>
+  <div class="close-grid">
+    <div class="close-card">
+      <div class="close-card-title">🎨 Manualidad rápida</div>
+      <ul>
+        <li>Dibujar un árbol y escribir su nombre encima, como Zaqueo.</li>
+        <li>Escribir una cosa que quieren cambiar y doblar el papel como "promesa".</li>
+      </ul>
+    </div>
+    <div class="close-card">
+      <div class="close-card-title">📖 Para llevar a casa</div>
+      <ul>
+        <li>Versículo: Lucas 19:10</li>
+        <li>Preguntarle a un familiar: ¿te has sentido alguna vez como Zaqueo?</li>
+        <li>Buscar en casa una cosa que puedan dar o compartir esta semana.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="prayer-box">
+    <div class="p-label">Oración sugerida para cerrar</div>
+    <div class="p-text">
+      "Jesús, gracias porque tú nos conoces por nuestro nombre.<br>
+      Gracias porque no importa si estamos escondidos o solos,<br>
+      tú siempre nos ves y nos llamas.<br>
+      Ayúdanos a ser como Zaqueo: a cambiar cuando tú entras a nuestra vida.<br>
+      Amén."
+    </div>
+  </div>
+
+</section>
+
+<footer>
+  <strong>Semilleros · Iglesia Gosén</strong> — Clase de Zaqueo · Lucas 19:1–10<br>
+  Material para uso del docente · Ministerio infantil
+</footer>
+
+<script>
+  const sections = ['s0','s1','s2','s3'];
+  const progress = ['25%','50%','75%','100%'];
+  let current = 0;
+
+  function goTo(idx) {
+    document.getElementById(sections[current]).classList.remove('visible');
+    document.getElementById('nav'+current).classList.remove('active');
+    current = idx;
+    document.getElementById(sections[current]).classList.add('visible');
+    document.getElementById('nav'+current).classList.add('active');
+    document.getElementById('progress').style.width = progress[idx];
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function toggleAnswer(btn) {
+    const box = btn.nextElementSibling;
+    if (box.classList.contains('show')) {
+      box.classList.remove('show');
+      btn.textContent = '✨ Revelar respuesta';
+    } else {
+      box.classList.add('show');
+      btn.innerHTML = '🙈 Ocultar respuesta';
+    }
+  }
+
+  function togglePista(el) {
+    el.classList.toggle('hidden-text');
+  }
+</script>
+</body>
+</html>
